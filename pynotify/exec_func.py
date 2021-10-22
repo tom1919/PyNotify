@@ -60,6 +60,13 @@ def _custom_obj_str(obj):
         strg = f"cols: {', '.join(obj.columns.values)[0:50]}..." 
     return strg
 
+def _len(obj):
+    try:
+        length = len(obj)
+    except:
+        length = None
+    return length
+
 def _fn_meta(function, args, kwargs, result):
     params = getfullargspec(function).args
     all_args = dict(zip(params[0:len(args)], args))
@@ -67,8 +74,7 @@ def _fn_meta(function, args, kwargs, result):
     all_args.update({'return': result})
     all_args = pd.DataFrame({'var':all_args.keys(), 'val':all_args.values()})
     all_args['type'] = all_args.val.apply(lambda x: type(x))
-    all_args['len'] = all_args.val.apply(lambda x: len(x)\
-                                         if hasattr(x, '__len__') else None)
+    all_args['len'] = all_args.val.apply(_len)
     all_args['str'] = all_args.val.apply(_custom_obj_str)
     all_args = all_args.drop(columns = 'val')    
     return all_args
