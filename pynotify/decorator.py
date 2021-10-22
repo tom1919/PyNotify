@@ -6,7 +6,7 @@ Created on Fri Oct 15 07:15:17 2021
 """
 
 from functools import wraps, partial
-from .helpers import _exec_func
+from .exec_func import _exec_func
 
 def notify(function=None, *, email=None, timeit=1, logger=None, printf=False,
            notes=None, error=True, host=None, persist=False, test=False):
